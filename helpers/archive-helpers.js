@@ -22,20 +22,36 @@ exports.initialize = function(pathsObj){
   });
 };
 
-// The following function names are provided to you to suggest how you might
-// modularize your code. Keep it clean!
-
+// returns a array of URLs in sites.txt
 exports.readListOfUrls = function(){
+  // use fs to access site.txt
+  // confirm that file exists
+  // if it exists, 
+    // Loop through lines of sites.txt
+    // Push each URL to array
+    // return array
 };
 
-exports.isUrlInList = function(){
+exports.isUrlInList = function(url, list){
+  // loop through array of URLs
+  // if url is in list, return true
+  // else return false
 };
 
-exports.addUrlToList = function(){
+exports.addUrlToList = function(url, list){
+  // loop through array of URLs
+  // if url is not in list
+    // add to list
 };
 
-exports.isUrlArchived = function(){
-};
+exports.isUrlArchived = function(url){
+  // use fs to check if folder for URL exists in archives/sites/
+  // return true if found
+    // else return false
+}; 
 
-exports.downloadUrls = function(){
+exports.downloadUrls = function(list){
+  //if isUrlArchived == false 
+    //archive the url
+  //do GET request for each asset in url and store the files locally
 };
