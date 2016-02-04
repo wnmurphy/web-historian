@@ -4,6 +4,7 @@ var helpers = require('./http-helpers.js');
 var fs = require('fs');
 var url = require('url');
 var http = require('http');
+var validUrl = require('valid-url');
 
 var headers = {
   "access-control-allow-origin": "*",
@@ -14,7 +15,7 @@ var headers = {
 var list = archive.paths.list //(sites.txt)
 var archivedSites = archive.paths.archivedSites //(archived sites folder)
 var assets = archive.paths.siteAssets //(loading.html, index.html)
-
+var listFile = fs.readFileSync(list, 'utf8');
 
 exports.handleRequest = function (request, response) {
  var pathName = url.parse(request.url).pathname.split('/');
@@ -36,25 +37,27 @@ exports.handleRequest = function (request, response) {
   // If user submits a website
   }else if(request.method === 'POST'){
     // Get and store the form-encoded url
-     var requestedUrl = getUrlFromFormData(request, response);
-      console.log(requestedUrl);
-      // If requested URL is in our archive
-      // list = archive.readListOfUrls()
-      // if archive.isUrlInList(pathName[1], list)
+    var requestedUrl = getUrlFromFormData(request, response);
+
+
+    // If requested URL is in our archive
         // if archive.isUrlArchived(pathName[1])
           // Serve archived version
         // otherwise
           // Add URL to sites.txt (Worker will archive it after 1min)
           // archive.addUrlToList(pathName, list)
           // Serve loading.html
+
+    addUrlToList(requestedUrl);
+    console.log(listFile);
   }else{
     request.end();
   };
   
 };
 
+// Extract and return requested URL from HTML form data.
 var getUrlFromFormData = function(request, response){
-  console.log("in getUrlFromFormData");
   var url = '';
   request.on('data', function(chunk){
     url += chunk;
@@ -64,13 +67,51 @@ var getUrlFromFormData = function(request, response){
   });
 };
 
+// Check whether requested URL is valid.
+var isValidUrl = function(url){
+  if (!(validUrl.isUri(url))){
+    return false;
+  }else{
+    return true
+  }
+};
+
+// Convert sites.txt to array.
+var readListOfUrls = function(listFile){
+  //split sites.txt to an array
+  var sitesArray = listFile.split('\n');
+  return sitesArray;
+};
+
+// Check whether URL is already in sites.txt array.
+var isUrlInList = function(url, list){
+  if(list.indexOf(url) !== -1){
+    return true;
+  }else{
+    return false;
+  }
+};
+
+// Queue up target URL in sites.txt to be archived.
+var addUrlToList = function(url){
+    if( !(isUrlInList(url, list)) ){
+      fs.appendFile(list, url+'\n');
+    }
+};
+
+// Check if target URL is present in archive folder.
+var isUrlArchived = function(url){
+  // use fs to check if folder for URL exists in archives/sites/
+  // return true if found
+    // else return false
+}; 
+
+
+
 /*
 To Do:
   Web
     Write 404 handler
-    Check URL format of actual user search input 
-    Extract form data
-    Extract target URL to variable 
     Check sites.txt:
       archive.readListOfUrls() > list
     archive.isUrlInList(url, list)

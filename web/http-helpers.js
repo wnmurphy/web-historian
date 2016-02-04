@@ -1,7 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 var archive = require('../helpers/archive-helpers');
-var validUrl = require('valid-url');
+
 
 exports.headers = headers = {
   "access-control-allow-origin": "*",
@@ -22,13 +22,4 @@ exports.serveAssets = function(res, asset, callback) {
 exports.send404 = function(response){
   response.writeHead(404);
   response.end();
-};
-
-
-exports.isValidUrl = function(url){
-  if (!(validUrl.isUri(url))){
-    return false;
-  }else{
-    return true
-  }
 };
