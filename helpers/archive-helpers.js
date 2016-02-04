@@ -22,7 +22,7 @@ exports.initialize = function(pathsObj){
   });
 };
 
-// returns a array of URLs in sites.txt
+// Convert sites.txt to array.
 exports.readListOfUrls = function(){
   // use fs to access site.txt
   // confirm that file exists
@@ -32,24 +32,29 @@ exports.readListOfUrls = function(){
     // return array
 };
 
+// Check whether URL is already in sites.txt array.
 exports.isUrlInList = function(url, list){
+  // use readListOfUrls()
   // loop through array of URLs
   // if url is in list, return true
   // else return false
 };
 
+// Queue up target URL in sites.txt to be archived.
 exports.addUrlToList = function(url, list){
   // loop through array of URLs
-  // if url is not in list
+  // if isUrlInList() returns false
     // add to list
 };
 
+// Check if target URL is present in archive folder.
 exports.isUrlArchived = function(url){
   // use fs to check if folder for URL exists in archives/sites/
   // return true if found
     // else return false
 }; 
 
+//Archive the target URL.
 exports.downloadUrls = function(list){
   //if isUrlArchived == false 
     //archive the url

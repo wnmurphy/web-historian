@@ -20,4 +20,7 @@ exports.serveAssets = function(res, asset, callback) {
 
 
 
-// Helper functions...
+// Helper functions... what functions will Web need to do repeatedly?
+  // send 404?
+  // 
+  // 
