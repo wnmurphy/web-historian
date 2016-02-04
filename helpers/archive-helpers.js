@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var validUrl = require('valid-url');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -21,6 +22,60 @@ exports.initialize = function(pathsObj){
     exports.paths[type] = path;
   });
 };
+
+// Extract and return requested URL from HTML form data.
+exports.getUrlFromFormData = function(request, response, cb){
+  var url = '';
+  request.on('data', function(chunk, cb){
+    url += chunk;
+    url = url.split('url=')[1]; 
+    console.log('geturlfromformdata: ' + url);
+    console.log('cb: ' + cb);
+  });
+
+  // cb(url);
+};
+
+// Check whether requested URL is valid.
+exports.isUrlValid = function(url){
+  console.log('in isUrlValid');
+  console.log('url is' + url);
+  if (!(validUrl.isUri(url))){
+    return false;
+  }else{
+    return true
+  }
+};
+
+// Take sites.txt, convert to array, return it.
+exports.readListOfUrls = function(list){
+  var listFile = fs.readFileSync(list, 'utf8');
+  var sitesArray = listFile.split('\n');
+  return sitesArray;
+};
+
+// Check whether URL is already in sites.txt array
+exports.isUrlInList = function(url, list){
+  if(list.indexOf(url) !== -1){
+    return true;
+  }else{
+    return false;
+  }
+};
+
+// Take list as array, check if url is in it, append if not.
+exports.addUrlToList = function(url, list){
+    if( !(isUrlInList(url, list)) ){
+      fs.appendFile(list, url+'\n');
+    }
+};
+
+// Check if target URL is present in archive folder.
+exports.isUrlArchived = function(url){
+  // use fs to check if folder for URL exists in archives/sites/
+  // return true if found
+    // else return false
+}; 
 
 //Archive the target URL.
 exports.downloadUrls = function(list){
