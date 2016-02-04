@@ -2,6 +2,7 @@ var path = require('path');
 var archive = require('../helpers/archive-helpers');
 var fs = require('fs');
 var url = require('url');
+var http = require('http');
 var headers = {
   "access-control-allow-origin": "*",
   "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -18,32 +19,22 @@ exports.handleRequest = function (request, response) {
         if(error){
           throw error;
         }
-        headers["Content-Type"] = "text/html";
         response.writeHead(200, headers);
-        // response.write(html);
         response.end(html);
       });
+    }
+    else{
+      response.end();
     }
     
   }
 
-//   fs.readFile('./index.html', function (err, html) {
-//     if (err) {
-//         throw err; 
-//     }       
-//     http.createServer(function(request, response) {  
-//         response.writeHeader(200, {"Content-Type": "text/html"});  
-//         response.write(html);  
-//         response.end();  
-//     }).listen(8000);
-// });
 
 
 
 
 
   if(request.method === 'POST'){
-    
   }
 
   // resource.end(archive.paths.list);
