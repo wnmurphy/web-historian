@@ -91,10 +91,14 @@ exports.addUrlToList = function(url, cb){
 };
 
 // Check if target URL is present in archive folder.
-exports.isUrlArchived = function(url){
-  // use fs to check if folder for URL exists in archives/sites/
-  // return true if found
-    // else return false
+exports.isUrlArchived = function(url, cb){
+  fs.readFile(this.paths.archivedSites + '/' + url, function(error, data){
+     if(error){
+      cb(false);
+     }else{
+      cb(true);
+     }
+  });
 }; 
 
 //Archive the target URL.
