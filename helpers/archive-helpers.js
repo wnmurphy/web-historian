@@ -34,7 +34,7 @@ exports.getUrlFromFormData = function(request, response, cb){
     // cb(url);
     // return;
   }).on('end', function() {
-    cb(url);
+    return cb(url);
   });
 };
 
@@ -50,19 +50,34 @@ exports.isUrlValid = function(url){
 };
 
 // Take sites.txt, convert to array, return it.
-exports.readListOfUrls = function(list){
-  var listFile = fs.readFileSync(list, 'utf8');
-  var sitesArray = listFile.split('\n');
-  return sitesArray;
+// exports.readListOfUrls = function(list){
+//   var listFile = fs.readFile(list, 'utf8', function(err, data){
+//     var sitesArray = data.split('\n');
+//     return sitesArray;
+//   });
+// };
+
+exports.readListOfUrls = function(cb, url){
+  var data = "";
+  fs.readFile(this.paths.list, function(err, buffer) {
+    data += buffer;
+    console.log('data: ' +  data.split("\n"));
+    // cb(listArr.push(data.toString()));
+    data = data.split("\n");
+    cb(data, url);
+  })
 };
 
 // Check whether URL is already in sites.txt array
-exports.isUrlInList = function(url, list){
-  if(list.indexOf(url) !== -1){
-    return true;
-  }else{
-    return false;
-  }
+exports.isUrlInList = function(url, cb){
+  //working on
+  // var result;
+  // if(list.indexOf(url) !== -1){
+  //   result = true;
+  // }else{
+  //   result = false;
+  // }
+  // cb(result);
 };
 
 // Take list as array, check if url is in it, append if not.
@@ -84,4 +99,8 @@ exports.downloadUrls = function(list){
   //if isUrlArchived == false 
     //archive the url
   //do GET request for each asset in url and store the files locally
+
+  //Adds text file to archives/sites folder
+    // needs urlName and fixturePath
+
 };

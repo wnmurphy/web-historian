@@ -5,16 +5,15 @@ var fs = require('fs');
 var url = require('url');
 var http = require('http');
 
-
 var headers = {
   "access-control-allow-origin": "*",
   "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
   "access-control-allow-headers": "content-type, accept",
   "access-control-max-age": 10 // Seconds.
 };
-var list = archive.paths.list //(sites.txt)
-var archivedSites = archive.paths.archivedSites //(archived sites folder)
-var assets = archive.paths.siteAssets //(loading.html, index.html)
+
+// console.log('readlistofurls:' + archive.readListOfUrls(archive.paths.list));
+
 
 exports.handleRequest = function (request, response) {
   // When user directly accesses URLs
@@ -43,24 +42,24 @@ exports.handleRequest = function (request, response) {
   // If user submits a website
   }
   else if(request.method === 'POST'){
+    console.log('test url: ' + request.url);
+
     archive.getUrlFromFormData(request, response, function(url) {
-      // console.log('cb url: ' + url);
-      // console.log(archive.paths.list);
       var fixturePath = archive.paths.archivedSites + "/" + url;
       var urlName = fixturePath.split(".")[1];
       
-      //****this adds text file to archives/sites folder****
-      // var fd = fs.openSync(fixturePath, "w");
-      // fs.writeSync(fd, urlName);
-      // fs.closeSync(fd);
-      // fs.writeFileSync(fixturePath, urlName);
+      // Add site file to archive/sites/.
+      fs.writeFile(fixturePath, urlName);
 
-      fs.appendFile(archive.paths.list, ('\n'+url), function(err, data) {
+      // Add site name to sites.txt.
+      fs.appendFile(archive.paths.list, (url+'\n'), function(err, data) {
         if(err) {
           return err;
         }
         else {
-          console.log('success');
+          console.log('Wrote to sites.txt');
+          response.writeHead(302, headers);
+          response.end();
         }
       })
       
