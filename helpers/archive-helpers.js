@@ -102,12 +102,19 @@ exports.isUrlArchived = function(url, cb){
 }; 
 
 //Archive the target URL.
-exports.downloadUrls = function(list){
-  //if isUrlArchived == false 
-    //archive the url
+exports.downloadUrls = function(urlList){
+  var fixturePath = this.paths.archivedSites + "/";
+  // var urlName = fixturePath.split(".")[1];
+  for(var i = 0; i < urlList.length; i++){
+    fs.writeFile(fixturePath + urlList[i]);
+  }
   //do GET request for each asset in url and store the files locally
 
-  //Adds text file to archives/sites folder
-    // needs urlName and fixturePath
-
 };
+
+
+
+
+
+
+

@@ -42,29 +42,29 @@ exports.handleRequest = function (request, response) {
   // If user submits a website
   }
   else if(request.method === 'POST'){
-    console.log('test url: ' + request.url);
+    // console.log('test url: ' + request.url);
 
-    archive.getUrlFromFormData(request, response, function(url) {
-      var fixturePath = archive.paths.archivedSites + "/" + url;
-      var urlName = fixturePath.split(".")[1];
+    // archive.getUrlFromFormData(request, response, function(url) {
+    //   var fixturePath = archive.paths.archivedSites + "/" + url;
+    //   var urlName = fixturePath.split(".")[1];
       
-      // Add site file to archive/sites/.
-      fs.writeFile(fixturePath, urlName);
+    //   // Add site file to archive/sites/.
+    //   fs.writeFile(fixturePath, urlName);
 
-      // Add site name to sites.txt.
-      fs.appendFile(archive.paths.list, (url+'\n'), function(err, data) {
-        if(err) {
-          return err;
-        }
-        else {
-          console.log('Wrote to sites.txt');
-          response.writeHead(302, headers);
-          response.end();
-        }
-      })
+    //   // Add site name to sites.txt.
+    //   fs.appendFile(archive.paths.list, (url+'\n'), function(err, data) {
+    //     if(err) {
+    //       return err;
+    //     }
+    //     else {
+    //       console.log('Wrote to sites.txt');
+    //       response.writeHead(302, headers);
+    //       response.end();
+    //     }
+    //   })
       
 
-    });
+    // });
 
     // request.on('data', function(data){
 
