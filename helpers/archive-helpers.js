@@ -77,20 +77,17 @@ exports.isUrlInList = function(url, cb){
       cb(true);
     }
   });
-  // var result;
-  // if(list.indexOf(url) !== -1){
-  //   result = true;
-  // }else{
-  //   result = false;
-  // }
-  // cb(result);
 };
 
 // Take list as array, check if url is in it, append if not.
-exports.addUrlToList = function(url, list){
-    if( !(isUrlInList(url, list)) ){
-      fs.appendFile(list, url+'\n');
-    }
+exports.addUrlToList = function(url, cb){
+  var that = this;
+    this.isUrlInList(url, function(result){
+      if(result === false){
+        cb(fs.appendFile(that.paths.list, url+'\n'));
+      }
+    });
+  
 };
 
 // Check if target URL is present in archive folder.
