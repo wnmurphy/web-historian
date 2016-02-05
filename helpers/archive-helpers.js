@@ -30,10 +30,12 @@ exports.getUrlFromFormData = function(request, response, cb){
     url += chunk;
     url = url.split('url=')[1]; 
     console.log('geturlfromformdata: ' + url);
-    console.log('cb: ' + cb);
+    
+    // cb(url);
+    // return;
+  }).on('end', function() {
+    cb(url);
   });
-
-  // cb(url);
 };
 
 // Check whether requested URL is valid.
