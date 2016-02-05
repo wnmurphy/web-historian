@@ -57,20 +57,26 @@ exports.isUrlValid = function(url){
 //   });
 // };
 
-exports.readListOfUrls = function(cb, url){
+exports.readListOfUrls = function(cb){
   var data = "";
   fs.readFile(this.paths.list, function(err, buffer) {
     data += buffer;
-    console.log('data: ' +  data.split("\n"));
-    // cb(listArr.push(data.toString()));
     data = data.split("\n");
-    cb(data, url);
+    cb(data);
   })
 };
 
 // Check whether URL is already in sites.txt array
 exports.isUrlInList = function(url, cb){
   //working on
+  this.readListOfUrls(function(listArr) {
+    if(listArr.indexOf(url) === -1) {
+      cb(false);
+    }
+    else {
+      cb(true);
+    }
+  });
   // var result;
   // if(list.indexOf(url) !== -1){
   //   result = true;
