@@ -1,5 +1,4 @@
 var http = require("http");
-//var httpRequest = require("http-request");
 var handler = require("./request-handler.js");
 var initialize = require("./initialize.js");
 

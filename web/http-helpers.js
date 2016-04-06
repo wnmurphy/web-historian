@@ -11,14 +11,6 @@ exports.headers = headers = {
   'Content-Type': "text/html"
 };
 
-exports.serveAssets = function(res, asset, callback) {
-  // Check the type of the asset,
-  // Serve static file
-    // HTML
-    // CSS
-    // JS, etc.
-};
-
 exports.send404 = function(response){
   response.writeHead(404);
   response.end();
